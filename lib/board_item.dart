@@ -22,7 +22,8 @@ class BoardItem extends StatefulWidget {
     this.index,
     this.onItemDraggingChanged,
     this.draggable = true,
-  });
+  }) : assert(draggable && onItemDraggingChanged !=
+      null, "onItemDraggingChanged can't be null if draggable is true", );
 
   @override
   State<StatefulWidget> createState() {
@@ -75,8 +76,8 @@ class BoardItemState extends State<BoardItem>
     );
   }
 
-  void _onItemReordered(
-      DragAndDropItem reorderedItem, DragAndDropItem receiverItem) {
+  void _onItemReordered(DragAndDropItem reorderedItem,
+      DragAndDropItem receiverItem) {
     final ItemOrderParam oldItem =
         (reorderedItem as CustomDragDropItemWidget).data;
     final ItemOrderParam newItem =
