@@ -22,7 +22,7 @@ class BoardItem extends StatefulWidget {
     this.index,
     this.onItemDraggingChanged,
     this.draggable = true,
-  }) : assert(draggable && onItemDraggingChanged !=
+  }) : assert(!draggable || onItemDraggingChanged !=
       null, "onItemDraggingChanged can't be null if draggable is true", );
 
   @override
