@@ -72,7 +72,8 @@ class BoardList extends StatefulWidget {
 class BoardListState extends State<BoardList>
     with AutomaticKeepAliveClientMixin<BoardList> {
   List<BoardItemState> itemStates = [];
-  ScrollController scrollController = ScrollController();
+  late ScrollController scrollController;
+  bool scrollControllerInitialized = false;
   final listKey = GlobalKey();
   Timer? _timer;
 
@@ -212,6 +213,10 @@ class BoardListState extends State<BoardList>
   }
 
   Widget _buildMovableList(ScrollController scrollController) {
+    if (!scrollControllerInitialized) {
+      this.scrollController = scrollController;
+      scrollControllerInitialized = true;
+    }
     final length = widget.items!.length;
     //if isDraggingItem, +1 to add last ghost item
     final itemCount = widget.isDraggingItem ? length + 1 : length;
