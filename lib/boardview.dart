@@ -231,6 +231,7 @@ class BoardViewState extends State<BoardView>
           decoration: list.decoration,
           padding: list.padding,
           isDraggingItem: isDraggingItem,
+          builder: list.builder,
         );
         return Opacity(
           opacity: draggedListIndex == index ? 0.4 : 1,
@@ -335,8 +336,8 @@ class BoardViewState extends State<BoardView>
 
   void _handleDraggingList() {
     if ((lists.length > draggedListIndex! + 1 &&
-            (lists[draggedListIndex! + 1].customWidget == null &&
-                lists[draggedListIndex! + 1].draggable)) &&
+        (lists[draggedListIndex! + 1].customWidget == null &&
+            lists[draggedListIndex! + 1].draggable)) &&
         dx! > rightListX!) {
       //move right
       moveListRight();
@@ -362,7 +363,7 @@ class BoardViewState extends State<BoardView>
           _setCurrentPage(page);
           _rebuild();
           Future.delayed(const Duration(milliseconds: 500)).then(
-            (value) => isMovingItemToOtherList = false,
+                (value) => isMovingItemToOtherList = false,
           );
         });
       }
@@ -374,7 +375,7 @@ class BoardViewState extends State<BoardView>
     final trigger = widget.margin * 4 + triggerScrollHorizontal;
     final dx = event.position.dx;
     if ((lists.length > currentPage + 1 &&
-            lists[currentPage + 1].customWidget == null) &&
+        lists[currentPage + 1].customWidget == null) &&
         dx > listWidth - trigger) {
       _moveToList(_nextPage);
     }
@@ -394,7 +395,9 @@ class BoardViewState extends State<BoardView>
 
   Widget _buildScrollBar() {
     final length =
-        lists.length - lists.where((e) => e.customWidget != null).length;
+        lists.length - lists
+            .where((e) => e.customWidget != null)
+            .length;
     final barLength = length > 5 ? 5 : length;
 
     const itemSize = 11.0;
@@ -438,7 +441,10 @@ class BoardViewState extends State<BoardView>
   ///This method to set height for Board View to improve performance
   ///Because of Widget with specific height perform better than Expanded by default
   void _setBoardHeight() async {
-    final isKeyboardOpen = View.of(context).viewInsets.bottom != 0.0;
+    final isKeyboardOpen = View
+        .of(context)
+        .viewInsets
+        .bottom != 0.0;
     //if isKeyboardOpen, return and wait for next frame run this method automatically
     if (isKeyboardOpen) return;
     if (boardHeight != null) return;
@@ -465,9 +471,11 @@ class BoardViewState extends State<BoardView>
   void onItemPointerTriggerScrollList(PointerMoveEvent event) {
     if (targetList == null) return;
     final box =
-        targetList!.listKey.currentContext!.findRenderObject() as RenderBox;
+    targetList!.listKey.currentContext!.findRenderObject() as RenderBox;
     final listHeight = box.size.height;
-    final listDyOffset = box.localToGlobal(Offset.zero).dy;
+    final listDyOffset = box
+        .localToGlobal(Offset.zero)
+        .dy;
     final itemPos = event.position.dy - listDyOffset;
     //
     if (itemPos >= listHeight) {

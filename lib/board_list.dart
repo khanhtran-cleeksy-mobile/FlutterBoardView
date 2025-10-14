@@ -35,6 +35,7 @@ class BoardList extends StatefulWidget {
   final EdgeInsets? padding;
   final bool draggable;
   final bool isDraggingItem;
+  final Widget Function(Widget Function(ScrollController) list)? builder;
 
   const BoardList({
     super.key,
@@ -57,6 +58,7 @@ class BoardList extends StatefulWidget {
     this.immovableWidget,
     this.decoration,
     this.isDraggingItem = false,
+    this.builder,
   });
 
   final int? index;
@@ -171,7 +173,8 @@ class BoardListState extends State<BoardList>
                 onTap: () => widget.onTapList?.call(widget.index),
                 onTapDown: (otd) {
                   if (widget.draggable) {
-                    final RenderBox object = context.findRenderObject() as RenderBox;
+                    final RenderBox object =
+                        context.findRenderObject() as RenderBox;
                     final Offset pos = object.localToGlobal(Offset.zero);
                     boardView.initialX = pos.dx;
                     boardView.initialY = pos.dy;
@@ -199,7 +202,8 @@ class BoardListState extends State<BoardList>
               Expanded(
                 key: listKey,
                 child: widget.movable
-                    ? _buildMovableList(boardView)
+                    ? widget.builder?.call(_buildMovableList) ??
+                        _buildMovableList(scrollController)
                     : widget.immovableWidget ?? const SizedBox(),
               ),
             ],
@@ -207,7 +211,7 @@ class BoardListState extends State<BoardList>
         );
   }
 
-  Widget _buildMovableList(BoardViewState boardView) {
+  Widget _buildMovableList(ScrollController scrollController) {
     final length = widget.items!.length;
     //if isDraggingItem, +1 to add last ghost item
     final itemCount = widget.isDraggingItem ? length + 1 : length;
