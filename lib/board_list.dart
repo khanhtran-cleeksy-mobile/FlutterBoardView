@@ -33,6 +33,7 @@ class BoardList extends StatefulWidget {
   final FutureCallBack? onLoadMore;
   final Decoration? decoration;
   final EdgeInsets? padding;
+  final EdgeInsets? listPadding;
   final bool draggable;
   final bool isDraggingItem;
 
@@ -47,6 +48,7 @@ class BoardList extends StatefulWidget {
     this.headerBackgroundColor,
     this.boardView,
     this.padding = EdgeInsets.zero,
+    this.listPadding = EdgeInsets.zero,
     this.draggable = true,
     this.index,
     this.onDropList,
@@ -159,9 +161,7 @@ class BoardListState extends State<BoardList>
 
     return widget.customWidget ??
         Container(
-          padding: EdgeInsets.only(
-              top: widget.padding?.top ?? 0,
-              bottom: widget.padding?.bottom ?? 0),
+          padding:  widget.padding,
           decoration:
               widget.decoration ?? BoxDecoration(color: backgroundColor),
           child: Column(
@@ -171,7 +171,8 @@ class BoardListState extends State<BoardList>
                 onTap: () => widget.onTapList?.call(widget.index),
                 onTapDown: (otd) {
                   if (widget.draggable) {
-                    final RenderBox object = context.findRenderObject() as RenderBox;
+                    final RenderBox object =
+                        context.findRenderObject() as RenderBox;
                     final Offset pos = object.localToGlobal(Offset.zero);
                     boardView.initialX = pos.dx;
                     boardView.initialY = pos.dy;
@@ -220,9 +221,7 @@ class BoardListState extends State<BoardList>
           return widget.onLoadMore!(widget.index!);
         },
         child: ListView.builder(
-          padding: EdgeInsets.only(
-              right: widget.padding?.right ?? 0,
-              left: widget.padding?.left ?? 0),
+          padding: widget.listPadding,
           physics: const AlwaysScrollableScrollPhysics(),
           controller: scrollController,
           itemCount: itemCount,
