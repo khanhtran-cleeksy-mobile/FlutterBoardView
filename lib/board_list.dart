@@ -217,7 +217,7 @@ class BoardListState extends State<BoardList>
         onLoadMore: () {
           return widget.onLoadMore!(widget.index!);
         },
-        child: ListView.builder(
+        child: ListView.separated(
           padding: widget.listPadding,
           physics: const AlwaysScrollableScrollPhysics(),
           controller: scrollController,
@@ -244,6 +244,7 @@ class BoardListState extends State<BoardList>
               onItemDraggingChanged: item.onItemDraggingChanged,
             );
           },
+          separatorBuilder: (context, index) => const SizedBox(height: 8,),
         ),
       ),
     );
