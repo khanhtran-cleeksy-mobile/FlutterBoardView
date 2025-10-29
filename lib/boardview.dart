@@ -230,6 +230,7 @@ class BoardViewState extends State<BoardView>
           customWidget: list.customWidget,
           decoration: list.decoration,
           padding: list.padding,
+          listPadding: list.listPadding,
           isDraggingItem: isDraggingItem,
         );
         return Opacity(

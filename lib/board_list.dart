@@ -189,9 +189,6 @@ class BoardListState extends State<BoardList>
                 },
                 child: Container(
                   color: widget.headerBackgroundColor,
-                  padding: EdgeInsets.only(
-                      right: widget.padding?.right ?? 0,
-                      left: widget.padding?.left ?? 0),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: widget.header!),
