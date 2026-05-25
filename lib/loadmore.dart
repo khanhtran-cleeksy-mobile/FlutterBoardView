@@ -408,9 +408,7 @@ String _buildEnglishText(LoadMoreStatus status) {
     case LoadMoreStatus.nomore:
       text = "";
       break;
-    default:
-      text = "";
-  }
+    }
   return text;
 }
 
